@@ -405,6 +405,23 @@
             font-weight: 500;
         }
 
+        .topic-title-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #topicTitle {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         .streak-counter {
             background: linear-gradient(45deg, #ff9800, #ffc107);
             color: white;
@@ -948,6 +965,16 @@
                 width: 100%;
             }
 
+            .topic-title-header {
+                order: 2;
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            #topicTitle {
+                font-size: 1rem;
+            }
+
             .code-block {
                 font-size: 0.8rem;
                 padding: 1rem;
@@ -1125,7 +1152,10 @@
                 </div>
                 <div class="progress-text" id="progressText">Card 1 of 80</div>
             </div>
-            <div class="streak-counter" id="streakCounter">🔥 0</div>
+            <div class="topic-title-header">
+                <div id="topicTitle">Python Fundamentals</div>
+                <div class="streak-counter" id="streakCounter">🔥 0</div>
+            </div>
         </div>
         
         <div class="card-stack" id="cardStack">
