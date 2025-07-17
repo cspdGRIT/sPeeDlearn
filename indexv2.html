@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>QuickLearn - Master Tech in 10 Minutes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: #333;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Enhanced Header with floating effect */
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2) drop-shadow(0 0 10px rgba(102, 126, 234, 0.5)); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            color: white;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.2"/><circle cx="40" cy="80" r="1.5" fill="white" opacity="0.15"/></svg>');
+            animation: floatingStars 20s linear infinite;
+        }
+
+        @keyframes floatingStars {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+            animation: heroTextSlide 1s ease-out;
+        }
+
+        @keyframes heroTextSlide {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            animation: heroTextSlide 1s ease-out 0.2s both;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: statFadeIn 0.8s ease-out both;
+        }
+
+        .stat:nth-child(1) { animation-delay: 0.1s; }
+        .stat:nth-child(2) { animation-delay: 0.2s; }
+        .stat:nth-child(3) { animation-delay: 0.3s; }
+        .stat:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes statFadeIn {
+            0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .stat:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 6vw, 2.5rem);
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+
+        /* Enhanced Topics Section */
+        .topics {
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 6vw, 2.5rem);
+            margin-bottom: 3rem;
+            color: #333;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .topic-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(102, 126, 234, 0.25);
+        }
+
+        .topic-card:hover::after {
+            left: 100%;
+        }
+
+        .topic-card:active {
+            transform: translateY(-10px) scale(0.98);
+        }
+
+        .topic-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .topic-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .topic-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .topic-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .difficulty {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .difficulty.beginner {
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            color: white;
+        }
+
+        .difficulty.intermediate {
+            background: linear-gradient(45deg, #ff9800, #ffc107);
+            color: white;
+        }
+
+        .difficulty.advanced {
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            color: white;
+        }
+
+        /* INCREDIBLE LEARNING INTERFACE */
+        .learning-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            z-index: 2000;
+            overflow: hidden;
+        }
+
+        .learning-header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .close-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .close-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .close-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .progress-container {
+            flex: 1;
+            margin: 0 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4caf50, #8bc34a, #cddc39);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: progressShine 2s ease-in-out infinite;
+        }
+
+        @keyframes progressShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .topic-title-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #topicTitle {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .streak-counter {
+            background: linear-gradient(45deg, #ff9800, #ffc107);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            animation: streakPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes streakPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* AMAZING CARD STACK */
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .learning-card {
+            width: 90%;
+            max-width: 380px;
+            height: 70vh;
+            max-height: 600px;
+            background: white;
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            position: absolute;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: left;
+            overflow-y: auto;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .learning-card::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .learning-card::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .learning-card::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        .learning-card:active {
+            cursor: grabbing;
+        }
+
+        .learning-card.swiped-right {
+            transform: translateX(150vw) rotate(45deg) scale(0.8);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .learning-card.swiped-left {
+            transform: translateX(-150vw) rotate(-45deg) scale(0.8);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* Card content styling */
+        .card-content h2 {
+            font-size: clamp(1.3rem, 5vw, 1.6rem);
+            margin-bottom: 1.5rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-content p {
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-content .code-block {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: #e2e8f0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            text-align: left;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            position: relative;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            overflow-x: auto;
+        }
+
+        .code-block::before {
+            content: "💻 Code Example";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: linear-gradient(45deg, #4299e1, #667eea);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card-content .highlight {
+            background: linear-gradient(120deg, transparent 0%, #ffd700 0%, #ffd700 100%, transparent 100%);
+            background-size: 100% 40%;
+            background-repeat: no-repeat;
+            background-position: 0 70%;
+            font-weight: bold;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            animation: highlightGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes highlightGlow {
+            0% { background-size: 100% 40%; }
+            100% { background-size: 100% 60%; }
+        }
+
+        /* Enhanced visual elements */
+        .visual-example {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: 2px dashed #cbd5e0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-example::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            z-index: -1;
+            border-radius: 15px;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, #fff5cd, #fed7aa);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid #f59e0b;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analogy-box::before {
+            content: "💡 Think of it like this:";
+            font-weight: bold;
+            color: #92400e;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        .memory-tip {
+            background: linear-gradient(135deg, #fef5e7, #fed7aa);
+            border: 2px solid #f6ad55;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            position: relative;
+        }
+
+        .memory-tip::before {
+            content: "🧠 Memory Tip: ";
+            font-weight: bold;
+            color: #c05621;
+        }
+
+        .quick-facts {
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            border: 2px solid #9ae6b4;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quick-facts ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .quick-facts li {
+            margin-bottom: 0.5rem;
+            color: #276749;
+        }
+
+        /* INCREDIBLE ACTION BUTTONS */
+        .action-buttons {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 3rem;
+            z-index: 20;
+        }
+
+        .action-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .action-btn.dislike {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+        }
+
+        .action-btn.like {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .action-btn:active {
+            transform: scale(0.9) translateY(0);
+        }
+
+        /* Particle effects */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(50px) scale(0); }
+        }
+
+        /* Swipe feedback effects */
+        .swipe-indicator {
+            position: absolute;
+            top: 50%;
+            font-size: 3rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .swipe-indicator.like {
+            right: 2rem;
+            color: #4caf50;
+            transform: translateY(-50%) scale(0.5);
+        }
+
+        .swipe-indicator.dislike {
+            left: 2rem;
+            color: #ff6b6b;
+            transform: translateY(-50%) scale(0.5);
+        }
+
+        .swipe-indicator.show {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* Enhanced Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 3rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideIn {
+            0% { transform: translateY(50px) scale(0.9); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .modal h3 {
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .prerequisites-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .prerequisites-list li {
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .prerequisites-list li:hover {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #2196f3;
+            transform: translateX(5px);
+        }
+
+        .prerequisites-list input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+            transform: scale(1.2);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Completion celebration */
+        .completion-modal {
+            text-align: center;
+        }
+
+        .completion-icon {
+            font-size: 5rem;
+            color: #4caf50;
+            margin-bottom: 1rem;
+            animation: celebrationBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes celebrationBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .learning-card {
+                width: 95%;
+                height: 75vh;
+                padding: 1.5rem;
+            }
+            
+            .card-content h2 {
+                font-size: 1.4rem;
+            }
+            
+            .card-content p {
+                font-size: 1rem;
+            }
+
+            .action-buttons {
+                bottom: 1rem;
+                gap: 2rem;
+            }
+
+            .action-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                padding: 2rem;
+                width: 95%;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .topic-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .learning-card {
+                width: 98%;
+                height: 80vh;
+                padding: 1rem;
+            }
+
+            .learning-header {
+                padding: 0.8rem 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .progress-container {
+                margin: 0;
+                order: 3;
+                width: 100%;
+            }
+
+            .topic-title-header {
+                order: 2;
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            #topicTitle {
+                font-size: 1rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+        }
+
+        /* Touch device enhancements */
+        @media (hover: none) and (pointer: coarse) {
+            .topic-card:hover {
+                transform: none;
+            }
+            
+            .topic-card:active {
+                transform: scale(0.95);
+            }
+            
+            .action-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Vibration effect class */
+        .vibrate {
+            animation: vibration 0.3s ease-in-out;
+        }
+
+        @keyframes vibration {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Success feedback */
+        .success-feedback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .success-feedback.show {
+            animation: successPop 0.8s ease-out;
+        }
+
+        @keyframes successPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">⚡ QuickLearn</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#topics">Topics</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1 class="fade-in">Master Tech in 10 Minutes</h1>
+            <p class="fade-in">Swipe through bite-sized lessons and learn Python, AI, ML & more at lightning speed!</p>
+            
+            <div class="stats">
+                <div class="stat fade-in">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Minutes per Topic</div>
+                </div>
+                <div class="stat fade-in">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Seconds per Card</div>
+                </div>
+                <div class="stat fade-in">
+                    <div class="stat-number">120</div>
+                    <div class="stat-label">Cards per Topic</div>
+                </div>
+                <div class="stat fade-in">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Retention Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Selection -->
+    <section id="topics" class="topics">
+        <div class="container">
+            <h2 class="section-title">Choose Your Learning Path</h2>
+            <div class="topic-grid">
+                <div class="topic-card fade-in" data-topic="python">
+                    <div class="topic-icon">🐍</div>
+                    <h3 class="topic-title">Python Fundamentals</h3>
+                    <p class="topic-description">Master Python basics from variables to functions in bite-sized chunks</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span>80 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="datascience">
+                    <div class="topic-icon">📊</div>
+                    <h3 class="topic-title">Data Science Essentials</h3>
+                    <p class="topic-description">Learn pandas, numpy, and data visualization techniques rapidly</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span>100 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="ml">
+                    <div class="topic-icon">🤖</div>
+                    <h3 class="topic-title">Machine Learning</h3>
+                    <p class="topic-description">Understand ML algorithms and scikit-learn in digestible lessons</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span>120 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="ai">
+                    <div class="topic-icon">🧠</div>
+                    <h3 class="topic-title">Artificial Intelligence</h3>
+                    <p class="topic-description">Explore neural networks, deep learning, and AI concepts</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span>110 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="genai">
+                    <div class="topic-icon">✨</div>
+                    <h3 class="topic-title">Generative AI</h3>
+                    <p class="topic-description">Master GPT, LLMs, and generative AI technologies</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span>90 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="nlp">
+                    <div class="topic-icon">💬</div>
+                    <h3 class="topic-title">Natural Language Processing</h3>
+                    <p class="topic-description">Learn text processing, sentiment analysis, and language models</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span>95 cards • 10 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Interface -->
+    <div class="learning-container" id="learningContainer">
+        <div class="learning-header">
+            <button class="close-btn" onclick="closeLearning()">✕ Exit</button>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Card 1 of 80</div>
+            </div>
+            <div class="topic-title-header">
+                <div id="topicTitle">Python Fundamentals</div>
+                <div class="streak-counter" id="streakCounter">🔥 0</div>
+            </div>
+        </div>
+        
+        <div class="card-stack" id="cardStack">
+            <!-- Cards will be dynamically loaded here -->
+            <div class="swipe-indicator like" id="likeIndicator">👍</div>
+            <div class="swipe-indicator dislike" id="dislikeIndicator">👎</div>
+            <div class="success-feedback" id="successFeedback">✨</div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-btn dislike" onclick="swipeLeft()">👎</button>
+            <button class="action-btn like" onclick="swipeRight()">👍</button>
+        </div>
+    </div>
+
+    <!-- Prerequisites Modal -->
+    <div class="modal" id="prerequisitesModal">
+        <div class="modal-content">
+            <h3>Prerequisites Check</h3>
+            <p style="margin-bottom: 2rem; color: #666;">Please confirm you have knowledge of the following:</p>
+            <ul class="prerequisites-list" id="prerequisitesList">
+                <!-- Prerequisites will be populated here -->
+            </ul>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeModal()">Go Back</button>
+                <button class="btn btn-primary" onclick="startLearning()">Start Learning!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="modal" id="completionModal">
+        <div class="modal-content completion-modal">
+            <div class="completion-icon">🎉</div>
+            <h3>Incredible Achievement!</h3>
+            <p>You've mastered another topic! Your brain is officially upgraded! 🧠⚡</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="closeCompletion()">Awesome!</button>
+                <button class="btn btn-secondary" onclick="reviewCards()">Review Cards</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced learning content with more engaging examples
+        const learningContent = {
+            python: {
+                title: "Python Fundamentals",
+                prerequisites: [],
+                cards: [
+                    {
+                        title: "🐍 What is Python?",
+                        content: "Python is a <span class='highlight'>high-level programming language</span> that's as easy to read as English! It's like having a conversation with your computer.",
+                        analogy: "Python is like a universal translator - it takes your ideas and translates them into computer language, but it's so simple that even humans can easily read it!",
+                        quickFacts: [
+                            "Created by Guido van Rossum in 1991",
+                            "Named after Monty Python's Flying Circus",
+                            "Used by Google, Instagram, Spotify, Netflix",
+                            "Most popular language for beginners"
+                        ]
+                    },
+                    {
+                        title: "📝 Python Syntax Magic",
+                        content: "Python uses <span class='highlight'>indentation (spaces)</span> instead of curly braces {} to organize code. It's like organizing paragraphs in an essay!",
+                        code: "# Other languages:\nif (condition) {\n    doSomething();\n}\n\n# Python way:\nif condition:\n    do_something()",
+                        analogy: "Think of Python indentation like organizing your closet - everything at the same level belongs together, and nested items are pushed further in.",
+                        memoryTip: "Python is picky about spaces - 4 spaces for each level, just like organizing a neat outline!"
+                    },
+                    {
+                        title: "📦 Variables = Storage Boxes",
+                        content: "Variables are like <span class='highlight'>labeled storage boxes</span> that hold different types of data.",
+                        code: "# Creating storage boxes\nname = 'Alice'      # Text box\nage = 25           # Number box\nheight = 5.6       # Decimal box\nis_student = True  # True/False box",
+                        visualExample: {
+                            title: "📦 Variable Storage Visualization",
+                            content: "name → [Alice] | age → [25] | height → [5.6] | is_student → [True]"
+                        },
+                        quickFacts: [
+                            "No need to declare variable type",
+                            "Case-sensitive: 'Name' ≠ 'name'",
+                            "Use snake_case: my_variable",
+                            "Cannot start with numbers"
+                        ]
+                    },
+                    {
+                        title: "🏷️ Data Types Explained",
+                        content: "Python has different <span class='highlight'>containers for different types of data</span>, like specialized boxes for different items.",
+                        code: "# Different types of data\ntext = 'Hello World'     # str (string)\nnumber = 42             # int (integer)\nprice = 19.99           # float (decimal)\nis_ready = True         # bool (True/False)\nmy_list = [1, 2, 3]     # list (collection)",
+                        memoryTip: "Remember SIFB - String, Integer, Float, Boolean - like a safe combination!"
+                    },
+                    {
+                        title: "📋 Lists = Shopping Lists",
+                        content: "Lists store multiple items in order, just like your <span class='highlight'>shopping list</span>. You can add, remove, and change items!",
+                        code: "# Creating a shopping list\nshopping = ['apples', 'bread', 'milk']\n\n# Adding items\nshopping.append('eggs')     # Add to end\nshopping.insert(0, 'butter') # Add to beginning\n\n# Accessing items\nfirst_item = shopping[0]    # Gets 'butter'\nlast_item = shopping[-1]    # Gets 'eggs'",
+                        quickFacts: [
+                            "Lists start counting from 0, not 1",
+                            "Use -1 to get the last item",
+                            "Lists can hold different data types",
+                            "Lists are mutable (changeable)"
+                        ]
+                    },
+                    {
+                        title: "🔧 Functions = Mini Machines",
+                        content: "Functions are like <span class='highlight'>mini machines</span> - you put something in, they do work, and give you something back!",
+                        code: "# Creating a greeting machine\ndef greet(name):\n    message = f'Hello, {name}! Welcome!'\n    return message\n\n# Using the machine\nresult = greet('Alice')\nprint(result)  # Output: Hello, Alice! Welcome!",
+                        analogy: "A function is like a coffee machine - you put in coffee beans (input), it processes them, and gives you coffee (output). The same machine can make coffee for anyone!"
+                    },
+                    {
+                        title: "🔄 For Loops = Assembly Line",
+                        content: "For loops repeat actions for each item in a collection, like an <span class='highlight'>assembly line</span> working on each product.",
+                        code: "# Processing each number\nnumbers = [1, 2, 3, 4, 5]\n\nfor num in numbers:\n    doubled = num * 2\n    print(f'{num} x 2 = {doubled}')\n    \n# Output:\n# 1 x 2 = 2\n# 2 x 2 = 4\n# 3 x 2 = 6 ...",
+                        quickFacts: [
+                            "Loop through lists, strings, ranges",
+                            "Each iteration gets one item",
+                            "Use 'range(5)' for numbers 0-4",
+                            "Break out early with 'break'"
+                        ]
+                    }
+                ]
+            },
+            datascience: {
+                title: "Data Science Essentials",
+                prerequisites: ["python"],
+                cards: [
+                    {
+                        title: "📊 What is Data Science?",
+                        content: "Data Science is like being a <span class='highlight'>detective for data</span> - you investigate numbers to solve real-world mysteries!",
+                        analogy: "Imagine you're Sherlock Holmes, but instead of looking for clues at a crime scene, you're finding patterns in spreadsheets to solve business problems!",
+                        quickFacts: [
+                            "80% of time spent cleaning data",
+                            "Combines math, programming, and domain expertise",
+                            "Used in Netflix recommendations, medical research",
+                            "Most sought-after skill in the job market"
+                        ]
+                    },
+                    {
+                        title: "🔢 NumPy = Super Calculator",
+                        content: "NumPy gives you <span class='highlight'>superpowers for working with numbers</span>. It's like upgrading from a basic calculator to a scientific supercomputer!",
+                        code: "import numpy as np\n\n# Regular Python (slow)\nnumbers = [1, 2, 3, 4, 5]\ndoubled = []\nfor num in numbers:\n    doubled.append(num * 2)\n\n# NumPy way (super fast!)\nnp_numbers = np.array([1, 2, 3, 4, 5])\ndoubled = np_numbers * 2  # All at once!",
+                        memoryTip: "NumPy = 'Numerical Python' - it makes math operations lightning fast!"
+                    }
+                ]
+            },
+            ml: {
+                title: "Machine Learning",
+                prerequisites: ["python", "datascience"],
+                cards: [
+                    {
+                        title: "🤖 What is Machine Learning?",
+                        content: "Machine Learning teaches computers to <span class='highlight'>learn patterns from examples</span>, like teaching a child to recognize animals by showing them many pictures!",
+                        analogy: "ML is like training a very smart student - you show them lots of examples, they find patterns, and then they can make predictions about new things they've never seen before!",
+                        quickFacts: [
+                            "Powers Netflix recommendations, GPS navigation",
+                            "Learns without being explicitly programmed",
+                            "Gets better with more data",
+                            "Three main types: Supervised, Unsupervised, Reinforcement"
+                        ]
+                    }
+                ]
+            },
+            ai: {
+                title: "Artificial Intelligence", 
+                prerequisites: ["python", "ml"],
+                cards: [
+                    {
+                        title: "🧠 What is Artificial Intelligence?",
+                        content: "AI creates systems that can <span class='highlight'>think and act like humans</span> - reasoning, learning, understanding language, and recognizing images!",
+                        analogy: "AI is like creating a digital brain that can solve problems, make decisions, and learn from experience - just like humans do, but with computer speed and precision!",
+                        quickFacts: [
+                            "AI powers Siri, Google Search, autonomous cars",
+                            "Narrow AI: Specific tasks (chess, image recognition)",
+                            "General AI: Human-level intelligence (not yet achieved)",
+                            "Machine Learning is a subset of AI"
+                        ]
+                    }
+                ]
+            },
+            genai: {
+                title: "Generative AI",
+                prerequisites: ["python", "ml", "ai"],
+                cards: [
+                    {
+                        title: "✨ What is Generative AI?",
+                        content: "Generative AI <span class='highlight'>creates new content</span> - text, images, music, code - like having a creative AI assistant that never runs out of ideas!",
+                        analogy: "Generative AI is like a super-creative artist who has studied millions of books, paintings, and songs, and can now create original content in any style you want!",
+                        quickFacts: [
+                            "Can write essays, create art, compose music",
+                            "GPT, DALL-E, Midjourney are popular examples",
+                            "Uses deep learning and massive datasets",
+                            "Revolutionizing creative industries"
+                        ]
+                    }
+                ]
+            },
+            nlp: {
+                title: "Natural Language Processing",
+                prerequisites: ["python", "ml"],
+                cards: [
+                    {
+                        title: "💬 What is NLP?",
+                        content: "NLP teaches computers to <span class='highlight'>understand, interpret, and generate human language</span> - like building a bridge between human communication and computer processing!",
+                        analogy: "NLP is like training a computer to be a language expert who can read, understand context, detect emotions, and even write responses - basically a digital linguist!",
+                        quickFacts: [
+                            "Powers search engines, chatbots, translators",
+                            "Combines linguistics and computer science",
+                            "Handles ambiguity and context in language",
+                            "Used in sentiment analysis, summarization"
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Prerequisites mapping
+        const prerequisites = {
+            python: { name: "Python Basics", topics: [] },
+            datascience: { name: "Data Science", topics: ["Python Basics"] },
+            ml: { name: "Machine Learning", topics: ["Python Basics", "Data Science Fundamentals"] },
+            ai: { name: "Artificial Intelligence", topics: ["Python Basics", "Machine Learning"] },
+            genai: { name: "Generative AI", topics: ["Python Basics", "Machine Learning", "AI Fundamentals"] },
+            nlp: { name: "NLP", topics: ["Python Basics", "Machine Learning"] }
+        };
+
+        let currentTopic = null;
+        let currentCardIndex = 0;
+        let totalCards = 0;
+        let isSwipeInProgress = false;
+        let streak = 0;
+        let startX = 0;
+        let startY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 4 + 's';
+                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Enhanced topic card interactions
+        document.querySelectorAll('.topic-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const topic = this.dataset.topic;
+                currentTopic = topic;
+                
+                // Add click animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                checkPrerequisites(topic);
+            });
+
+            // Add hover effects for desktop
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+
+        function checkPrerequisites(topic) {
+            const prereqs = prerequisites[topic].topics;
+            
+            if (prereqs.length === 0) {
+                initializeLearning(topic);
+                return;
+            }
+
+            const modal = document.getElementById('prerequisitesModal');
+            const list = document.getElementById('prerequisitesList');
+            
+            list.innerHTML = prereqs.map(prereq => `
+                <li>
+                    <input type="checkbox" id="prereq-${prereq.replace(/\s+/g, '-')}" />
+                    <label for="prereq-${prereq.replace(/\s+/g, '-')}">${prereq}</label>
+                </li>
+            `).join('');
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('prerequisitesModal').style.display = 'none';
+        }
+
+        function startLearning() {
+            const checkboxes = document.querySelectorAll('#prerequisitesList input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            if (!allChecked) {
+                // Add vibration effect
+                document.querySelector('.modal-content').classList.add('vibrate');
+                setTimeout(() => {
+                    document.querySelector('.modal-content').classList.remove('vibrate');
+                }, 300);
+                
+                alert('Please confirm you have knowledge of all prerequisites before starting.');
+                return;
+            }
+            
+            closeModal();
+            initializeLearning(currentTopic);
+        }
+
+        function initializeLearning(topic) {
+            const content = learningContent[topic];
+            if (!content) return;
+
+            currentCardIndex = 0;
+            totalCards = content.cards.length;
+            streak = 0;
+            
+            // Show learning interface with animation
+            const learningContainer = document.getElementById('learningContainer');
+            learningContainer.style.display = 'block';
+            learningContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                learningContainer.style.opacity = '1';
+                learningContainer.style.transition = 'opacity 0.5s ease';
+            }, 50);
+            
+            document.getElementById('topicTitle').textContent = content.title;
+            document.body.style.overflow = 'hidden';
+            
+            loadCards(content.cards);
+            updateProgress();
+            updateStreak();
+        }
+
+        function loadCards(cards) {
+            const cardStack = document.getElementById('cardStack');
+            const existingCards = cardStack.querySelectorAll('.learning-card');
+            existingCards.forEach(card => card.remove());
+            
+            // Load next 3 cards for smooth experience
+            for (let i = 0; i < Math.min(3, cards.length - currentCardIndex); i++) {
+                const cardData = cards[currentCardIndex + i];
+                const cardElement = createCard(cardData, i);
+                cardStack.appendChild(cardElement);
+            }
+        }
+
+        function createCard(cardData, stackIndex) {
+            const card = document.createElement('div');
+            card.className = 'learning-card';
+            card.style.zIndex = 10 - stackIndex;
+            card.style.transform = `scale(${1 - stackIndex * 0.03}) translateY(${stackIndex * 8}px) translateZ(${-stackIndex * 50}px)`;
+            card.style.opacity = 1 - stackIndex * 0.1;
+            
+            let cardContent = `
+                <div class="card-content">
+                    <h2>${cardData.title}</h2>
+                    <p>${cardData.content}</p>
+            `;
+            
+            if (cardData.code) {
+                cardContent += `<div class="code-block">${cardData.code}</div>`;
+            }
+            
+            if (cardData.analogy) {
+                cardContent += `<div class="analogy-box">${cardData.analogy}</div>`;
+            }
+            
+            if (cardData.memoryTip) {
+                cardContent += `<div class="memory-tip">${cardData.memoryTip}</div>`;
+            }
+            
+            if (cardData.quickFacts) {
+                cardContent += `<div class="quick-facts"><ul>`;
+                cardData.quickFacts.forEach(fact => {
+                    cardContent += `<li>${fact}</li>`;
+                });
+                cardContent += `</ul></div>`;
+            }
+            
+            cardContent += '</div>';
+            card.innerHTML = cardContent;
+            
+            // Add enhanced swipe functionality
+            addSwipeHandlers(card);
+            
+            return card;
+        }
+
+        function addSwipeHandlers(card) {
+            // Touch events
+            card.addEventListener('touchstart', handleTouchStart, { passive: false });
+            card.addEventListener('touchmove', handleTouchMove, { passive: false });
+            card.addEventListener('touchend', handleTouchEnd, { passive: false });
+            
+            // Mouse events for desktop
+            card.addEventListener('mousedown', handleMouseStart);
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseEnd);
+
+            function handleTouchStart(e) {
+                startInteraction(e.touches[0].clientX, e.touches[0].clientY);
+            }
+
+            function handleMouseStart(e) {
+                e.preventDefault();
+                startInteraction(e.clientX, e.clientY);
+            }
+
+            function startInteraction(x, y) {
+                if (isSwipeInProgress) return;
+                
+                isDragging = true;
+                startX = x;
+                startY = y;
+                card.style.transition = 'none';
+                card.style.cursor = 'grabbing';
+            }
+
+            function handleTouchMove(e) {
+                e.preventDefault();
+                if (isDragging) {
+                    handleMove(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }
+
+            function handleMouseMove(e) {
+                if (isDragging) {
+                    handleMove(e.clientX, e.clientY);
+                }
+            }
+
+            function handleMove(x, y) {
+                if (!isDragging) return;
+                
+                currentX = x - startX;
+                currentY = y - startY;
+                
+                const rotation = currentX * 0.08;
+                const scale = 1 - Math.abs(currentX) * 0.0001;
+                
+                card.style.transform = `translateX(${currentX}px) translateY(${currentY * 0.5}px) rotate(${rotation}deg) scale(${scale})`;
+                
+                // Enhanced visual feedback
+                const opacity = Math.min(Math.abs(currentX) / 80, 0.8);
+                const likeIndicator = document.getElementById('likeIndicator');
+                const dislikeIndicator = document.getElementById('dislikeIndicator');
+                
+                if (currentX > 50) {
+                    card.style.boxShadow = `0 25px 60px rgba(76, 175, 80, ${opacity})`;
+                    likeIndicator.style.opacity = opacity;
+                    likeIndicator.classList.add('show');
+                    dislikeIndicator.classList.remove('show');
+                } else if (currentX < -50) {
+                    card.style.boxShadow = `0 25px 60px rgba(255, 107, 107, ${opacity})`;
+                    dislikeIndicator.style.opacity = opacity;
+                    dislikeIndicator.classList.add('show');
+                    likeIndicator.classList.remove('show');
+                } else {
+                    card.style.boxShadow = '0 25px 60px rgba(0,0,0,0.15)';
+                    likeIndicator.classList.remove('show');
+                    dislikeIndicator.classList.remove('show');
+                }
+            }
+
+            function handleTouchEnd(e) {
+                endInteraction();
+            }
+
+            function handleMouseEnd(e) {
+                endInteraction();
+            }
+
+            function endInteraction() {
+                if (!isDragging) return;
+                
+                isDragging = false;
+                card.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                card.style.cursor = 'grab';
+                
+                // Hide indicators
+                document.getElementById('likeIndicator').classList.remove('show');
+                document.getElementById('dislikeIndicator').classList.remove('show');
+                
+                const swipeThreshold = 120;
+                
+                if (Math.abs(currentX) > swipeThreshold) {
+                    if (currentX > 0) {
+                        completeSwipeRight();
+                    } else {
+                        completeSwipeLeft();
+                    }
+                } else {
+                    // Snap back with elastic animation
+                    card.style.transform = '';
+                    card.style.boxShadow = '0 25px 60px rgba(0,0,0,0.15)';
+                }
+                
+                currentX = 0;
+                currentY = 0;
+            }
+        }
+
+        function swipeRight() {
+            if (isSwipeInProgress) return;
+            completeSwipeRight();
+        }
+
+        function swipeLeft() {
+            if (isSwipeInProgress) return;
+            completeSwipeLeft();
+        }
+
+        function completeSwipeRight() {
+            if (isSwipeInProgress) return;
+            isSwipeInProgress = true;
+            
+            const topCard = document.querySelector('.learning-card');
+            if (topCard) {
+                topCard.classList.add('swiped-right');
+                showSuccessFeedback('✨');
+                streak++;
+                setTimeout(() => {
+                    nextCard();
+                }, 600);
+            }
+        }
+
+        function completeSwipeLeft() {
+            if (isSwipeInProgress) return;
+            isSwipeInProgress = true;
+            
+            const topCard = document.querySelector('.learning-card');
+            if (topCard) {
+                topCard.classList.add('swiped-left');
+                showSuccessFeedback('💪');
+                streak++;
+                setTimeout(() => {
+                    nextCard();
+                }, 600);
+            }
+        }
+
+        function showSuccessFeedback(emoji) {
+            const feedback = document.getElementById('successFeedback');
+            feedback.textContent = emoji;
+            feedback.classList.add('show');
+            
+            setTimeout(() => {
+                feedback.classList.remove('show');
+            }, 800);
+        }
+
+        function nextCard() {
+            const cardStack = document.getElementById('cardStack');
+            const topCard = cardStack.querySelector('.learning-card');
+            
+            if (topCard) {
+                cardStack.removeChild(topCard);
+            }
+            
+            currentCardIndex++;
+            isSwipeInProgress = false;
+            
+            if (currentCardIndex >= totalCards) {
+                showCompletion();
+                return;
+            }
+            
+            // Load next card if needed
+            const content = learningContent[currentTopic];
+            const remainingCards = cardStack.children.length;
+            
+            if (currentCardIndex + remainingCards < totalCards) {
+                const newCardData = content.cards[currentCardIndex + remainingCards];
+                const newCard = createCard(newCardData, remainingCards);
+                cardStack.appendChild(newCard);
+            }
+            
+            // Update existing cards position with smooth animation
+            const cards = Array.from(cardStack.querySelectorAll('.learning-card'));
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.zIndex = 10 - index;
+                    card.style.transform = `scale(${1 - index * 0.03}) translateY(${index * 8}px) translateZ(${-index * 50}px)`;
+                    card.style.opacity = 1 - index * 0.1;
+                }, index * 50);
+            });
+            
+            updateProgress();
+            updateStreak();
+        }
+
+        function updateProgress() {
+            const progress = (currentCardIndex / totalCards) * 100;
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `Card ${currentCardIndex + 1} of ${totalCards}`;
+        }
+
+        function updateStreak() {
+            const streakCounter = document.getElementById('streakCounter');
+            streakCounter.textContent = `🔥 ${streak}`;
+            
+            if (streak > 0 && streak % 5 === 0) {
+                streakCounter.style.animation = 'none';
+                setTimeout(() => {
+                    streakCounter.style.animation = 'streakPulse 2s ease-in-out infinite';
+                }, 50);
+            }
+        }
+
+        function closeLearning() {
+            const learningContainer = document.getElementById('learningContainer');
+            learningContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                learningContainer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                currentCardIndex = 0;
+                streak = 0;
+            }, 300);
+        }
+
+        function showCompletion() {
+            document.getElementById('completionModal').style.display = 'block';
+        }
+
+        function closeCompletion() {
+            document.getElementById('completionModal').style.display = 'none';
+            closeLearning();
+        }
+
+        function reviewCards() {
+            document.getElementById('completionModal').style.display = 'none';
+            currentCardIndex = 0;
+            const content = learningContent[currentTopic];
+            loadCards(content.cards);
+            updateProgress();
+        }
+
+        // Enhanced keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('learningContainer').style.display === 'block') {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    swipeRight();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    swipeLeft();
+                } else if (e.key === 'Escape') {
+                    closeLearning();
+                }
+            }
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Enhanced scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            observer.observe(el);
+        });
+
+        // Initialize particles and other effects
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add entrance animations
+            setTimeout(() => {
+                document.querySelector('.hero h1').style.animation = 'heroTextSlide 1s ease-out';
+                document.querySelector('.hero p').style.animation = 'heroTextSlide 1s ease-out 0.2s both';
+            }, 100);
+        });
+
+        // Prevent zoom on double tap for mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Add haptic feedback simulation for supported devices
+        function triggerHapticFeedback() {
+            if (navigator.vibrate) {
+                navigator.vibrate(10); // Very brief vibration
+            }
+        }
+
+        // Enhanced button interactions
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', triggerHapticFeedback);
+        });
+    </script>
+</body>
+</html>
