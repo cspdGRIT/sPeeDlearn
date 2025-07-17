@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sPeeDlearn - CoPilot for your 10 m learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            color: white;
+            margin-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        /* Topic Selection */
+        .topics {
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .topic-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .topic-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .topic-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .topic-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .topic-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .difficulty {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .difficulty.beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty.intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty.advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Learning Interface */
+        .learning-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 2000;
+        }
+
+        .learning-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        .progress-container {
+            flex: 1;
+            margin: 0 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4caf50, #8bc34a);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        /* Card Stack */
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .learning-card {
+            width: 90%;
+            max-width: 600px;
+            height: 80%;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: absolute;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .learning-card:active {
+            cursor: grabbing;
+        }
+
+        .learning-card.swiped-right {
+            transform: translateX(100vw) rotate(30deg);
+            opacity: 0;
+        }
+
+        .learning-card.swiped-left {
+            transform: translateX(-100vw) rotate(-30deg);
+            opacity: 0;
+        }
+
+        .card-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-content .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            text-align: left;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "💻 Code Example";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: #4299e1;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .card-content .highlight {
+            background: linear-gradient(120deg, transparent 0%, #ffd700 0%, #ffd700 100%, transparent 100%);
+            background-size: 100% 30%;
+            background-repeat: no-repeat;
+            background-position: 0 70%;
+            font-weight: bold;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .visual-example {
+            background: #f7fafc;
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .visual-example .example-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-item {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+
+        .comparison-item.good {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .comparison-item.bad {
+            border-color: #f56565;
+            background: #fff5f5;
+        }
+
+        .step-by-step {
+            background: #edf2f7;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .analogy-box {
+            background: linear-gradient(135deg, #fff5cd, #fed7aa);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .analogy-box::before {
+            content: "💡 Think of it like this:";
+            font-weight: bold;
+            color: #92400e;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        .data-viz {
+            background: #f0f9ff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .simple-diagram {
+            font-family: monospace;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            white-space: pre-line;
+            font-size: 0.9rem;
+        }
+
+        .emoji-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .emoji-scale .scale-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .card-type-visual {
+            background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
+        }
+
+        .card-type-example {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+        }
+
+        .card-type-comparison {
+            background: linear-gradient(135deg, #fff3e0, #ffcc02);
+        }
+
+        .quick-facts {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quick-facts ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .quick-facts li {
+            margin-bottom: 0.5rem;
+            color: #276749;
+        }
+
+        .memory-tip {
+            background: #fef5e7;
+            border: 1px solid #f6ad55;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .memory-tip::before {
+            content: "🧠 Memory Tip: ";
+            font-weight: bold;
+            color: #c05621;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+        }
+
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .action-btn.dislike {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .action-btn.like {
+            background: #4caf50;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Prerequisites Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 3rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal h3 {
+            margin-bottom: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .prerequisites-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .prerequisites-list li {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .prerequisites-list input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Completion Modal */
+        .completion-modal {
+            text-align: center;
+        }
+
+        .completion-icon {
+            font-size: 4rem;
+            color: #4caf50;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .learning-card {
+                width: 95%;
+                padding: 2rem;
+            }
+            
+            .card-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .card-content p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">s⚡PeeD⚡learn - Your Learning CoPilot</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#topics">Topics</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1 class="fade-in">Master Tech in 10 Minutes</h1>
+            <p class="fade-in">Swipe through bite-sized lessons and learn Python, AI, ML & more at lightning speed!</p>
+            
+            <div class="stats">
+                <div class="stat fade-in">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Minutes per Topic</div>
+                </div>
+                <div class="stat fade-in">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Seconds per Card</div>
+                </div>
+                <div class="stat fade-in">
+                    <div class="stat-number">60-120</div>
+                    <div class="stat-label">Cards per Topic</div>
+                </div>
+                <div class="stat fade-in">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Retention Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Selection -->
+    <section id="topics" class="topics">
+        <div class="container">
+            <h2 class="section-title">Choose Your Learning Path</h2>
+            <div class="topic-grid">
+                <div class="topic-card fade-in" data-topic="python">
+                    <div class="topic-icon">🐍</div>
+                    <h3 class="topic-title">Python Fundamentals</h3>
+                    <p class="topic-description">Master Python basics from variables to functions in bite-sized chunks</p>
+                    <div class="topic-meta">
+                        <span class="difficulty beginner">Beginner</span>
+                        <span>80 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="datascience">
+                    <div class="topic-icon">📊</div>
+                    <h3 class="topic-title">Data Science Essentials</h3>
+                    <p class="topic-description">Learn pandas, numpy, and data visualization techniques rapidly</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span>100 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="ml">
+                    <div class="topic-icon">🤖</div>
+                    <h3 class="topic-title">Machine Learning</h3>
+                    <p class="topic-description">Understand ML algorithms and scikit-learn in digestible lessons</p>
+                    <div class="topic-meta">
+                        <span class="difficulty intermediate">Intermediate</span>
+                        <span>120 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="ai">
+                    <div class="topic-icon">🧠</div>
+                    <h3 class="topic-title">Artificial Intelligence</h3>
+                    <p class="topic-description">Explore neural networks, deep learning, and AI concepts</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span>110 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="genai">
+                    <div class="topic-icon">✨</div>
+                    <h3 class="topic-title">Generative AI</h3>
+                    <p class="topic-description">Master GPT, LLMs, and generative AI technologies</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span>90 cards • 10 min</span>
+                    </div>
+                </div>
+                
+                <div class="topic-card fade-in" data-topic="nlp">
+                    <div class="topic-icon">💬</div>
+                    <h3 class="topic-title">Natural Language Processing</h3>
+                    <p class="topic-description">Learn text processing, sentiment analysis, and language models</p>
+                    <div class="topic-meta">
+                        <span class="difficulty advanced">Advanced</span>
+                        <span>95 cards • 10 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Interface -->
+    <div class="learning-container" id="learningContainer">
+        <div class="learning-header">
+            <button class="close-btn" onclick="closeLearning()">✕ Exit</button>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Card 1 of 80</div>
+            </div>
+            <div id="topicTitle">Python Fundamentals</div>
+        </div>
+        
+        <div class="card-stack" id="cardStack">
+            <!-- Cards will be dynamically loaded here -->
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-btn dislike" onclick="swipeLeft()">👎</button>
+            <button class="action-btn like" onclick="swipeRight()">👍</button>
+        </div>
+    </div>
+
+    <!-- Prerequisites Modal -->
+    <div class="modal" id="prerequisitesModal">
+        <div class="modal-content">
+            <h3>Prerequisites Check</h3>
+            <p style="margin-bottom: 2rem; color: #666;">Please confirm you have knowledge of the following:</p>
+            <ul class="prerequisites-list" id="prerequisitesList">
+                <!-- Prerequisites will be populated here -->
+            </ul>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeModal()">Go Back</button>
+                <button class="btn btn-primary" onclick="startLearning()">Start Learning!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="modal" id="completionModal">
+        <div class="modal-content completion-modal">
+            <div class="completion-icon">🎉</div>
+            <h3>Congratulations!</h3>
+            <p>You've completed the learning path! Time to apply your new knowledge.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="closeCompletion()">Awesome!</button>
+                <button class="btn btn-secondary" onclick="reviewCards()">Review Cards</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced learning content with visual examples and comprehensive explanations
+        const learningContent = {
+            python: {
+                title: "Python Fundamentals",
+                prerequisites: [],
+                cards: [
+                    {
+                        title: "🐍 What is Python?",
+                        content: "Python is a <span class='highlight'>high-level programming language</span> that's as easy to read as English!",
+                        type: "concept",
+                        analogy: "Python is like a universal translator - it takes your ideas and translates them into computer language, but it's so simple that even humans can easily read it!",
+                        quickFacts: [
+                            "Created by Guido van Rossum in 1991",
+                            "Named after Monty Python's Flying Circus",
+                            "Used by Google, Instagram, Spotify, Netflix",
+                            "Most popular language for beginners"
+                        ]
+                    },
+                    {
+                        title: "📝 Python Syntax Magic",
+                        content: "Python uses <span class='highlight'>indentation (spaces)</span> instead of curly braces {} to organize code. It's like organizing paragraphs in an essay!",
+                        code: "# Other languages:\nif (condition) {\n    doSomething();\n}\n\n# Python way:\nif condition:\n    do_something()",
+                        analogy: "Think of Python indentation like organizing your closet - everything at the same level belongs together, and nested items are pushed further in.",
+                        memoryTip: "Python is picky about spaces - 4 spaces for each level, just like organizing a neat outline!"
+                    },
+                    {
+                        title: "📦 Variables = Storage Boxes",
+                        content: "Variables are like <span class='highlight'>labeled storage boxes</span> that hold different types of data.",
+                        code: "# Creating storage boxes\nname = 'Alice'      # Text box\nage = 25           # Number box\nheight = 5.6       # Decimal box\nis_student = True  # True/False box",
+                        visualExample: {
+                            title: "📦 Variable Storage Visualization",
+                            content: "name → [Alice] | age → [25] | height → [5.6] | is_student → [True]"
+                        },
+                        quickFacts: [
+                            "No need to declare variable type",
+                            "Case-sensitive: 'Name' ≠ 'name'",
+                            "Use snake_case: my_variable",
+                            "Cannot start with numbers"
+                        ]
+                    },
+                    {
+                        title: "🏷️ Data Types Explained",
+                        content: "Python has different <span class='highlight'>containers for different types of data</span>, like specialized boxes for different items.",
+                        code: "# Different types of data\ntext = 'Hello World'     # str (string)\nnumber = 42             # int (integer)\nprice = 19.99           # float (decimal)\nis_ready = True         # bool (True/False)\nmy_list = [1, 2, 3]     # list (collection)",
+                        comparison: [
+                            { type: "String (str)", example: "'Hello'", description: "Text and characters" },
+                            { type: "Integer (int)", example: "42", description: "Whole numbers" },
+                            { type: "Float", example: "3.14", description: "Decimal numbers" },
+                            { type: "Boolean (bool)", example: "True", description: "Yes/No values" }
+                        ],
+                        memoryTip: "Remember SIFB - String, Integer, Float, Boolean - like a safe combination!"
+                    },
+                    {
+                        title: "📋 Lists = Shopping Lists",
+                        content: "Lists store multiple items in order, just like your <span class='highlight'>shopping list</span>. You can add, remove, and change items!",
+                        code: "# Creating a shopping list\nshopping = ['apples', 'bread', 'milk']\n\n# Adding items\nshopping.append('eggs')     # Add to end\nshopping.insert(0, 'butter') # Add to beginning\n\n# Accessing items\nfirst_item = shopping[0]    # Gets 'butter'\nlast_item = shopping[-1]    # Gets 'eggs'",
+                        stepByStep: [
+                            { step: 1, text: "Create list with square brackets []" },
+                            { step: 2, text: "Separate items with commas" },
+                            { step: 3, text: "Access items with index numbers [0, 1, 2...]" },
+                            { step: 4, text: "Use methods like .append() to modify" }
+                        ],
+                        quickFacts: [
+                            "Lists start counting from 0, not 1",
+                            "Use -1 to get the last item",
+                            "Lists can hold different data types",
+                            "Lists are mutable (changeable)"
+                        ]
+                    },
+                    {
+                        title: "🔧 Functions = Mini Machines",
+                        content: "Functions are like <span class='highlight'>mini machines</span> - you put something in, they do work, and give you something back!",
+                        code: "# Creating a greeting machine\ndef greet(name):\n    message = f'Hello, {name}! Welcome!'\n    return message\n\n# Using the machine\nresult = greet('Alice')\nprint(result)  # Output: Hello, Alice! Welcome!",
+                        analogy: "A function is like a coffee machine - you put in coffee beans (input), it processes them, and gives you coffee (output). The same machine can make coffee for anyone!",
+                        stepByStep: [
+                            { step: 1, text: "Start with 'def' keyword" },
+                            { step: 2, text: "Give your function a name" },
+                            { step: 3, text: "Add parentheses () for inputs" },
+                            { step: 4, text: "Write code inside (indented)" },
+                            { step: 5, text: "Use 'return' to give back a result" }
+                        ]
+                    },
+                    {
+                        title: "🔄 For Loops = Assembly Line",
+                        content: "For loops repeat actions for each item in a collection, like an <span class='highlight'>assembly line</span> working on each product.",
+                        code: "# Processing each number\nnumbers = [1, 2, 3, 4, 5]\n\nfor num in numbers:\n    doubled = num * 2\n    print(f'{num} x 2 = {doubled}')\n    \n# Output:\n# 1 x 2 = 2\n# 2 x 2 = 4\n# 3 x 2 = 6 ...",
+                        visualExample: {
+                            title: "🏭 Assembly Line Visualization",
+                            content: "Input: [1, 2, 3] → Process: ×2 → Output: [2, 4, 6]"
+                        },
+                        quickFacts: [
+                            "Loop through lists, strings, ranges",
+                            "Each iteration gets one item",
+                            "Use 'range(5)' for numbers 0-4",
+                            "Break out early with 'break'"
+                        ]
+                    },
+                    {
+                        title: "📖 Dictionaries = Phone Book",
+                        content: "Dictionaries store <span class='highlight'>key-value pairs</span>, like a phone book where names are keys and phone numbers are values.",
+                        code: "# Creating a contact book\ncontacts = {\n    'Alice': '555-1234',\n    'Bob': '555-5678',\n    'Charlie': '555-9999'\n}\n\n# Looking up a number\nalice_number = contacts['Alice']\nprint(alice_number)  # 555-1234\n\n# Adding new contact\ncontacts['Diana'] = '555-0000'",
+                        comparison: [
+                            { 
+                                type: "List", 
+                                example: "shopping[0]", 
+                                description: "Access by position number" 
+                            },
+                            { 
+                                type: "Dictionary", 
+                                example: "contacts['Alice']", 
+                                description: "Access by meaningful key" 
+                            }
+                        ],
+                        memoryTip: "Dictionary keys are like labels on filing cabinet drawers - they help you find exactly what you're looking for!"
+                    },
+                    {
+                        title: "🎯 If Statements = Decision Maker",
+                        content: "<span class='highlight'>If statements</span> help programs make decisions, like a smart traffic light that changes based on conditions.",
+                        code: "# Smart decision making\nage = 18\nhas_license = True\n\nif age >= 18 and has_license:\n    print('You can drive!')\nelif age >= 18:\n    print('Get your license first')\nelse:\n    print('Too young to drive')",
+                        stepByStep: [
+                            { step: 1, text: "Check condition with 'if'" },
+                            { step: 2, text: "Add alternative with 'elif'" },
+                            { step: 3, text: "Catch everything else with 'else'" },
+                            { step: 4, text: "Use ==, >, <, >=, <= for comparisons" }
+                        ],
+                        quickFacts: [
+                            "Use 'and', 'or', 'not' for complex conditions",
+                            "== checks equality, = assigns values",
+                            "Conditions must be True or False",
+                            "Indentation matters for code blocks"
+                        ]
+                    },
+                    {
+                        title: "🔄 While Loops = Washing Machine",
+                        content: "<span class='highlight'>While loops</span> repeat as long as a condition is true, like a washing machine that keeps running until clothes are clean.",
+                        code: "# Countdown timer\ncount = 5\n\nwhile count > 0:\n    print(f'Countdown: {count}')\n    count = count - 1  # or count -= 1\n    \nprint('Blast off! 🚀')",
+                        analogy: "While loops are like checking your cookies in the oven - you keep checking 'while' they're not done yet, and stop when they're ready!",
+                        comparison: [
+                            { 
+                                type: "For Loop", 
+                                example: "Known repetitions", 
+                                description: "Repeat 5 times" 
+                            },
+                            { 
+                                type: "While Loop", 
+                                example: "Unknown repetitions", 
+                                description: "Until condition is false" 
+                            }
+                        ],
+                        memoryTip: "For = 'for each item', While = 'while condition is true'"
+                    }
+                ]
+            },
+            datascience: {
+                title: "Data Science Essentials",
+                prerequisites: ["python"],
+                cards: [
+                    {
+                        title: "📊 What is Data Science?",
+                        content: "Data Science is like being a <span class='highlight'>detective for data</span> - you investigate numbers to solve real-world mysteries!",
+                        analogy: "Imagine you're Sherlock Holmes, but instead of looking for clues at a crime scene, you're finding patterns in spreadsheets to solve business problems!",
+                        stepByStep: [
+                            { step: 1, text: "Collect data (like gathering evidence)" },
+                            { step: 2, text: "Clean data (remove errors and duplicates)" },
+                            { step: 3, text: "Analyze patterns (find the story)" },
+                            { step: 4, text: "Create insights (solve the mystery)" },
+                            { step: 5, text: "Communicate findings (present your case)" }
+                        ],
+                        quickFacts: [
+                            "80% of time spent cleaning data",
+                            "Combines math, programming, and domain expertise",
+                            "Used in Netflix recommendations, medical research",
+                            "Most sought-after skill in the job market"
+                        ]
+                    },
+                    {
+                        title: "🔢 NumPy = Super Calculator",
+                        content: "NumPy gives you <span class='highlight'>superpowers for working with numbers</span>. It's like upgrading from a basic calculator to a scientific supercomputer!",
+                        code: "import numpy as np\n\n# Regular Python (slow)\nnumbers = [1, 2, 3, 4, 5]\ndoubled = []\nfor num in numbers:\n    doubled.append(num * 2)\n\n# NumPy way (super fast!)\nnp_numbers = np.array([1, 2, 3, 4, 5])\ndoubled = np_numbers * 2  # All at once!",
+                        comparison: [
+                            { 
+                                type: "Regular Python", 
+                                example: "One number at a time", 
+                                description: "Like washing dishes by hand" 
+                            },
+                            { 
+                                type: "NumPy", 
+                                example: "All numbers at once", 
+                                description: "Like using a dishwasher" 
+                            }
+                        ],
+                        memoryTip: "NumPy = 'Numerical Python' - it makes math operations lightning fast!"
+                    },
+                    {
+                        title: "📋 Pandas = Excel on Steroids",
+                        content: "Pandas DataFrames are like <span class='highlight'>Excel spreadsheets that you control with code</span>. Imagine Excel that never crashes and can handle millions of rows!",
+                        code: "import pandas as pd\n\n# Reading data (like opening Excel file)\ndf = pd.read_csv('sales_data.csv')\n\n# Quick exploration\nprint(df.head())      # First 5 rows\nprint(df.info())      # Data types and info\nprint(df.describe())  # Statistical summary",
+                        visualExample: {
+                            title: "📊 DataFrame Structure",
+                            content: "Rows = Records (like each person) | Columns = Features (like age, name, salary)"
+                        },
+                        stepByStep: [
+                            { step: 1, text: "Load data with pd.read_csv()" },
+                            { step: 2, text: "Explore with .head(), .info(), .describe()" },
+                            { step: 3, text: "Select columns: df['column_name']" },
+                            { step: 4, text: "Filter rows: df[df['age'] > 25]" },
+                            { step: 5, text: "Group and summarize data" }
+                        ]
+                    },
+                    {
+                        title: "🧹 Data Cleaning = House Cleaning",
+                        content: "Real data is <span class='highlight'>messy like a teenager's room</span>. Data cleaning is like organizing everything so you can actually find what you need!",
+                        code: "# Common data cleaning tasks\n\n# 1. Remove duplicates\ndf_clean = df.drop_duplicates()\n\n# 2. Handle missing values\ndf_filled = df.fillna(0)  # Fill with 0\ndf_dropped = df.dropna()  # Remove missing rows\n\n# 3. Fix data types\ndf['age'] = df['age'].astype(int)\ndf['date'] = pd.to_datetime(df['date'])",
+                        analogy: "Data cleaning is like preparing ingredients for cooking - you wash vegetables, remove bad parts, and organize everything before you start cooking the actual meal!",
+                        quickFacts: [
+                            "Missing values show as NaN (Not a Number)",
+                            "Always check data types with .dtypes",
+                            "Duplicates can skew your analysis",
+                            "Clean data = reliable insights"
+                        ]
+                    },
+                    {
+                        title: "📈 Data Visualization = Storytelling",
+                        content: "<span class='highlight'>Charts and graphs are like pictures</span> that tell stories about your data. A good chart is worth a thousand spreadsheet rows!",
+                        code: "import matplotlib.pyplot as plt\nimport seaborn as sns\n\n# Simple line plot\nplt.plot([1, 2, 3, 4], [10, 20, 25, 30])\nplt.title('Sales Growth Over Time')\nplt.xlabel('Quarter')\nplt.ylabel('Sales ($)')\nplt.show()\n\n# Beautiful plots with seaborn\nsns.scatterplot(data=df, x='age', y='salary')",
+                        comparison: [
+                            { 
+                                type: "Numbers in Table", 
+                                example: "Hard to see patterns", 
+                                description: "Like reading sheet music" 
+                            },
+                            { 
+                                type: "Visual Charts", 
+                                example: "Patterns jump out", 
+                                description: "Like hearing the music" 
+                            }
+                        ],
+                        stepByStep: [
+                            { step: 1, text: "Choose right chart type (bar, line, scatter)" },
+                            { step: 2, text: "Add clear titles and labels" },
+                            { step: 3, text: "Use colors meaningfully" },
+                            { step: 4, text: "Keep it simple and focused" }
+                        ]
+                    },
+                    {
+                        title: "📊 Statistical Analysis = Health Checkup",
+                        content: "Statistics help you <span class='highlight'>understand the health of your data</span>, like a doctor checking your vital signs!",
+                        code: "# Data health checkup\nprint('Data Vital Signs:')\nprint(f'Average: {df[\"sales\"].mean()}')\nprint(f'Middle value: {df[\"sales\"].median()}')\nprint(f'Most common: {df[\"product\"].mode()[0]}')\nprint(f'Spread: {df[\"sales\"].std()}')\n\n# Correlation (how things relate)\ncorrelation = df['age'].corr(df['salary'])\nprint(f'Age-Salary relationship: {correlation}')",
+                        visualExample: {
+                            title: "📋 Statistical Vital Signs",
+                            content: "Mean = Average | Median = Middle | Mode = Most Common | Std = Spread"
+                        },
+                        memoryTip: "Mean-Median-Mode are the '3 Ms' of statistics - they tell you about the center of your data!"
+                    }
+                ]
+            },
+            ml: {
+                title: "Machine Learning",
+                prerequisites: ["python", "datascience"],
+                cards: [
+                    {
+                        title: "🤖 What is Machine Learning?",
+                        content: "Machine Learning teaches computers to <span class='highlight'>learn patterns from examples</span>, like teaching a child to recognize animals by showing them many pictures!",
+                        analogy: "ML is like training a very smart student - you show them lots of examples, they find patterns, and then they can make predictions about new things they've never seen before!",
+                        stepByStep: [
+                            { step: 1, text: "Show algorithm lots of examples (training data)" },
+                            { step: 2, text: "Algorithm finds patterns automatically" },
+                            { step: 3, text: "Test with new, unseen data" },
+                            { step: 4, text: "Use model to make predictions" }
+                        ],
+                        quickFacts: [
+                            "Powers Netflix recommendations, GPS navigation",
+                            "Learns without being explicitly programmed",
+                            "Gets better with more data",
+                            "Three main types: Supervised, Unsupervised, Reinforcement"
+                        ]
+                    },
+                    {
+                        title: "🏷️ Types of Machine Learning",
+                        content: "ML has three main flavors, like different <span class='highlight'>learning styles in school</span>:",
+                        comparison: [
+                            { 
+                                type: "Supervised Learning", 
+                                example: "Learning with a teacher", 
+                                description: "Has correct answers (labels)" 
+                            },
+                            { 
+                                type: "Unsupervised Learning", 
+                                example: "Self-discovery", 
+                                description: "Find hidden patterns" 
+                            },
+                            { 
+                                type: "Reinforcement Learning", 
+                                example: "Learning by trial and error", 
+                                description: "Rewards for good actions" 
+                            }
+                        ],
+                        analogy: "Supervised = Learning math with answer key | Unsupervised = Discovering patterns in a puzzle | Reinforcement = Learning to ride a bike through practice",
+                        quickFacts: [
+                            "Supervised: Email spam detection, medical diagnosis",
+                            "Unsupervised: Customer segmentation, data compression",
+                            "Reinforcement: Game AI, autonomous vehicles"
+                        ]
+                    },
+                    {
+                        title: "📏 Linear Regression = Drawing Best Line",
+                        content: "Linear Regression finds the <span class='highlight'>best straight line through scattered data points</span>, like finding the trend in your data!",
+                        code: "from sklearn.linear_model import LinearRegression\n\n# Train the model\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)  # Show examples\n\n# Make predictions\npredictions = model.predict(X_test)\n\n# How good is our line?\nscore = model.score(X_test, y_test)\nprint(f'Accuracy: {score:.2f}')",
+                        visualExample: {
+                            title: "📈 Best Fit Line",
+                            content: "Data Points: ••••• | Best Line: ——— | Prediction: New point on line"
+                        },
+                        analogy: "Like drawing the best line through dots on a graph to predict where future dots might fall. If you see a trend of house prices vs size, you can predict price for any size!",
+                        memoryTip: "Linear = Line, Regression = Going back to the pattern"
+                    },
+                    {
+                        title: "🎯 Classification = Sorting Machine",
+                        content: "Classification algorithms <span class='highlight'>sort things into categories</span>, like a smart post office that automatically sorts mail!",
+                        code: "from sklearn.ensemble import RandomForestClassifier\n\n# Train a classifier\nclf = RandomForestClassifier()\nclf.fit(X_train, y_train)  # Learn from examples\n\n# Classify new emails\nnew_emails = ['Win money now!', 'Meeting at 3pm']\npredictions = clf.predict(new_emails)\n# Output: ['spam', 'not_spam']",
+                        comparison: [
+                            { 
+                                type: "Regression", 
+                                example: "Predicts numbers", 
+                                description: "House price: $250,000" 
+                            },
+                            { 
+                                type: "Classification", 
+                                example: "Predicts categories", 
+                                description: "Email type: Spam or Not Spam" 
+                            }
+                        ],
+                        stepByStep: [
+                            { step: 1, text: "Show examples of each category" },
+                            { step: 2, text: "Algorithm learns the differences" },
+                            { step: 3, text: "Give it new, unlabeled data" },
+                            { step: 4, text: "It predicts the category" }
+                        ]
+                    },
+                    {
+                        title: "✂️ Train-Test Split = Exam Preparation",
+                        content: "<span class='highlight'>Never test a student with the same questions they studied!</span> Same rule for ML - always test on unseen data.",
+                        code: "from sklearn.model_selection import train_test_split\n\n# Split data: 80% for training, 20% for testing\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)\n\n# Train only on training data\nmodel.fit(X_train, y_train)\n\n# Test on completely new data\naccuracy = model.score(X_test, y_test)",
+                        analogy: "It's like preparing for an exam - you study with practice questions (training set), then take the real exam with new questions (test set) to see if you really learned!",
+                        quickFacts: [
+                            "Common split: 80% train, 20% test",
+                            "random_state ensures reproducible results",
+                            "Never use test data for training!",
+                            "Validation set sometimes used for tuning"
+                        ],
+                        memoryTip: "Train = Study, Test = Exam, Score = Grade"
+                    },
+                    {
+                        title: "📊 Model Evaluation = Report Card",
+                        content: "Just like students get grades, ML models get <span class='highlight'>performance scores</span> to see how well they learned!",
+                        code: "from sklearn.metrics import accuracy_score, classification_report\n\n# Get the report card\naccuracy = accuracy_score(y_test, predictions)\nprint(f'Overall Grade: {accuracy:.2f}')\n\n# Detailed breakdown\nreport = classification_report(y_test, predictions)\nprint(report)",
+                        comparison: [
+                            { 
+                                type: "Accuracy", 
+                                example: "Overall correct %", 
+                                description: "Like overall GPA" 
+                            },
+                            { 
+                                type: "Precision", 
+                                example: "How precise when saying 'Yes'", 
+                                description: "Quality of positive predictions" 
+                            },
+                            { 
+                                type: "Recall", 
+                                example: "How many 'Yes' cases found", 
+                                description: "Completeness of detection" 
+                            }
+                        ],
+                        memoryTip: "Precision = Quality, Recall = Completeness, F1 = Balance of both"
+                    }
+                ]
+            },
+            ai: {
+                title: "Artificial Intelligence",
+                prerequisites: ["python", "ml"],
+                cards: [
+                    {
+                        title: "🧠 What is Artificial Intelligence?",
+                        content: "AI creates systems that can <span class='highlight'>think and act like humans</span> - reasoning, learning, understanding language, and recognizing images!",
+                        analogy: "AI is like creating a digital brain that can solve problems, make decisions, and learn from experience - just like humans do, but with computer speed and precision!",
+                        stepByStep: [
+                            { step: 1, text: "Perceive: Take in information (see, hear, read)" },
+                            { step: 2, text: "Process: Analyze and understand the data" },
+                            { step: 3, text: "Reason: Make logical connections" },
+                            { step: 4, text: "Act: Make decisions and take actions" },
+                            { step: 5, text: "Learn: Improve from experience" }
+                        ],
+                        quickFacts: [
+                            "AI powers Siri, Google Search, autonomous cars",
+                            "Narrow AI: Specific tasks (chess, image recognition)",
+                            "General AI: Human-level intelligence (not yet achieved)",
+                            "Machine Learning is a subset of AI"
+                        ]
+                    },
+                    {
+                        title: "🕸️ Neural Networks = Brain Simulation",
+                        content: "Neural networks are inspired by <span class='highlight'>how neurons connect in your brain</span>. Artificial neurons work together to solve complex problems!",
+                        code: "import tensorflow as tf\n\n# Simple neural network\nmodel = tf.keras.Sequential([\n    tf.keras.layers.Dense(64, activation='relu'),  # Hidden layer\n    tf.keras.layers.Dense(32, activation='relu'),  # Another layer\n    tf.keras.layers.Dense(10, activation='softmax') # Output layer\n])",
+                        visualExample: {
+                            title: "🧠 Neural Network Structure",
+                            content: "Input Layer → Hidden Layers → Output Layer\n(Data enters) → (Processing) → (Final decision)"
+                        },
+                        analogy: "Think of your brain making a decision - information flows from your senses through multiple layers of neurons, each layer processing and refining the information until you reach a conclusion!",
+                        memoryTip: "Neural = Brain-like, Network = Connected system"
+                    },
+                    {
+                        title: "🏗️ Deep Learning = Skyscraper Networks",
+                        content: "Deep Learning uses neural networks with <span class='highlight'>many layers (like a tall building)</span> to understand complex patterns in data!",
+                        comparison: [
+                            { 
+                                type: "Traditional ML", 
+                                example: "Shallow (1-2 layers)", 
+                                description: "Like a house" 
+                            },
+                            { 
+                                type: "Deep Learning", 
+                                example: "Deep (many layers)", 
+                                description: "Like a skyscraper" 
+                            }
+                        ],
+                        quickFacts: [
+                            "Each layer learns different features",
+                            "First layers: Simple patterns (edges, colors)",
+                            "Deeper layers: Complex concepts (faces, objects)",
+                            "Needs lots of data and computing power"
+                        ],
+                        analogy: "Like learning to recognize a car - first layer sees lines and curves, second layer sees wheels and windows, final layer says 'that's a car!'"
+                    },
+                    {
+                        title: "⚡ Activation Functions = Decision Switches",
+                        content: "Activation functions help neurons <span class='highlight'>decide whether to 'fire' or stay quiet</span>, like light switches that turn on at different brightness levels!",
+                        code: "# Common activation functions\n\n# ReLU - Most popular (like an on/off switch)\n# If input is positive, pass it through\n# If input is negative, output 0\n\n# Sigmoid - Smooth curve (0 to 1)\n# Good for probabilities\n\n# Tanh - Smooth curve (-1 to 1)\n# Good for normalized data",
+                        comparison: [
+                            { 
+                                type: "ReLU", 
+                                example: "On/Off switch", 
+                                description: "0 for negative, same for positive" 
+                            },
+                            { 
+                                type: "Sigmoid", 
+                                example: "Dimmer switch", 
+                                description: "Smooth curve from 0 to 1" 
+                            },
+                            { 
+                                type: "Tanh", 
+                                example: "Centered dimmer", 
+                                description: "Smooth curve from -1 to 1" 
+                            }
+                        ],
+                        memoryTip: "Activation = How much a neuron gets excited and fires!"
+                    },
+                    {
+                        title: "👁️ Computer Vision = Digital Eyes",
+                        content: "Computer Vision teaches machines to <span class='highlight'>see and understand images</span>, like giving computers digital eyes and a visual brain!",
+                        code: "# Convolutional Neural Network for images\nmodel = tf.keras.Sequential([\n    tf.keras.layers.Conv2D(32, (3,3), activation='relu'),\n    tf.keras.layers.MaxPooling2D(2, 2),\n    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),\n    tf.keras.layers.MaxPooling2D(2, 2),\n    tf.keras.layers.Flatten(),\n    tf.keras.layers.Dense(64, activation='relu'),\n    tf.keras.layers.Dense(10, activation='softmax')\n])",
+                        stepByStep: [
+                            { step: 1, text: "Convolution: Detect features (edges, shapes)" },
+                            { step: 2, text: "Pooling: Reduce image size, keep important info" },
+                            { step: 3, text: "Multiple layers: Learn complex patterns" },
+                            { step: 4, text: "Classification: Decide what's in the image" }
+                        ],
+                        quickFacts: [
+                            "CNNs are the go-to for image tasks",
+                            "Used in medical imaging, self-driving cars",
+                            "Can recognize faces, read text, detect objects",
+                            "Filters learn to detect specific features"
+                        ]
+                    },
+                    {
+                        title: "🗣️ Natural Language Processing = Language Teacher",
+                        content: "NLP teaches computers to <span class='highlight'>understand and generate human language</span>, like having a universal translator and language expert!",
+                        analogy: "NLP is like teaching a computer to be a language expert - understanding grammar, context, sentiment, and even generating human-like text responses!",
+                        stepByStep: [
+                            { step: 1, text: "Tokenization: Break text into words" },
+                            { step: 2, text: "Understanding: Analyze grammar and meaning" },
+                            { step: 3, text: "Context: Understand relationships between words" },
+                            { step: 4, text: "Generation: Create appropriate responses" }
+                        ],
+                        quickFacts: [
+                            "Powers chatbots, translation, voice assistants",
+                            "Transformers revolutionized NLP (BERT, GPT)",
+                            "Attention mechanism helps focus on important words",
+                            "Can understand sentiment, summarize, translate"
+                        ]
+                    }
+                ]
+            },
+            genai: {
+                title: "Generative AI",
+                prerequisites: ["python", "ml", "ai"],
+                cards: [
+                    {
+                        title: "✨ What is Generative AI?",
+                        content: "Generative AI <span class='highlight'>creates new content</span> - text, images, music, code - like having a creative AI assistant that never runs out of ideas!",
+                        analogy: "Generative AI is like a super-creative artist who has studied millions of books, paintings, and songs, and can now create original content in any style you want!",
+                        stepByStep: [
+                            { step: 1, text: "Training: Learn from millions of examples" },
+                            { step: 2, text: "Understanding: Grasp patterns and styles" },
+                            { step: 3, text: "Generation: Create new, original content" },
+                            { step: 4, text: "Refinement: Improve based on feedback" }
+                        ],
+                        quickFacts: [
+                            "Can write essays, create art, compose music",
+                            "GPT, DALL-E, Midjourney are popular examples",
+                            "Uses deep learning and massive datasets",
+                            "Revolutionizing creative industries"
+                        ]
+                    },
+                    {
+                        title: "🔤 Large Language Models = Word Wizards",
+                        content: "LLMs are <span class='highlight'>AI systems trained on vast amounts of text</span> to understand and generate human-like language!",
+                        code: "# Using a language model (conceptual)\nprompt = \"Explain quantum physics in simple terms\"\nresponse = llm.generate(prompt)\n\n# The model considers:\n# - Context and meaning\n# - Appropriate tone and style\n# - Factual accuracy\n# - Coherent structure",
+                        comparison: [
+                            { 
+                                type: "Traditional Chatbot", 
+                                example: "Rule-based responses", 
+                                description: "Like a scripted conversation" 
+                            },
+                            { 
+                                type: "Large Language Model", 
+                                example: "Understanding-based responses", 
+                                description: "Like talking to a knowledgeable human" 
+                            }
+                        ],
+                        quickFacts: [
+                            "Trained on books, websites, articles",
+                            "GPT-4 has 175+ billion parameters",
+                            "Can understand context across long conversations",
+                            "Emergent abilities arise from scale"
+                        ]
+                    },
+                    {
+                        title: "🎯 Transformers = Attention Champions",
+                        content: "Transformers use <span class='highlight'>attention mechanisms</span> to focus on important parts of text, like how you focus on key words when reading!",
+                        analogy: "Transformers are like super-focused readers who can pay attention to every word in a sentence simultaneously and understand how they all relate to each other!",
+                        visualExample: {
+                            title: "🔍 Attention Mechanism",
+                            content: "Input: 'The cat sat on the mat'\nAttention: cat ←→ sat (who did what)\n         sat ←→ mat (where)"
+                        },
+                        stepByStep: [
+                            { step: 1, text: "Self-Attention: Words look at other words" },
+                            { step: 2, text: "Multi-Head: Multiple attention patterns" },
+                            { step: 3, text: "Parallel Processing: All words at once" },
+                            { step: 4, text: "Layer Stacking: Multiple transformer layers" }
+                        ],
+                        memoryTip: "Transformers = Attention + Parallel processing = Better language understanding"
+                    },
+                    {
+                        title: "💬 Prompt Engineering = AI Communication",
+                        content: "<span class='highlight'>Crafting effective prompts</span> is like learning to communicate clearly with your AI assistant - the better your instructions, the better the results!",
+                        code: "# Poor prompt\n\"Write about dogs\"\n\n# Better prompt\n\"Write a 200-word informative article about golden retrievers, \nfocusing on their temperament and suitability as family pets. \nUse a friendly, accessible tone for dog lovers.\"\n\n# Best prompt\n\"Act as a veterinarian writing for first-time dog owners. \nCreate a beginner's guide to golden retriever care covering \ntemperament, exercise needs, and training tips. \nUse bullet points and include specific examples.\"",
+                        stepByStep: [
+                            { step: 1, text: "Be specific about what you want" },
+                            { step: 2, text: "Provide context and role" },
+                            { step: 3, text: "Specify format and length" },
+                            { step: 4, text: "Give examples if needed" },
+                            { step: 5, text: "Iterate and refine" }
+                        ],
+                        quickFacts: [
+                            "Clear prompts = better outputs",
+                            "Include role, task, format, examples",
+                            "Chain-of-thought prompting improves reasoning",
+                            "Few-shot learning with examples works well"
+                        ]
+                    },
+                    {
+                        title: "🎨 Multimodal AI = Swiss Army Knife",
+                        content: "Multimodal AI can <span class='highlight'>understand and create different types of content</span> - text, images, audio, video - all in one system!",
+                        analogy: "Like having a super-talented artist who can paint, write, compose music, and make videos, all while understanding how they connect together!",
+                        comparison: [
+                            { 
+                                type: "Single Modal", 
+                                example: "Text only", 
+                                description: "Like a writer who only writes" 
+                            },
+                            { 
+                                type: "Multimodal", 
+                                example: "Text + Images + Audio", 
+                                description: "Like a multimedia creator" 
+                            }
+                        ],
+                        quickFacts: [
+                            "GPT-4V can analyze images and generate text",
+                            "DALL-E creates images from text descriptions",
+                            "Can translate between different modalities",
+                            "Future: Video, audio, 3D content generation"
+                        ]
+                    },
+                    {
+                        title: "⚙️ Fine-tuning = Specialized Training",
+                        content: "Fine-tuning adapts pre-trained models for <span class='highlight'>specific tasks or domains</span>, like sending a general doctor to medical school for specialization!",
+                        code: "# Fine-tuning process (conceptual)\n\n# 1. Start with pre-trained model\nbase_model = load_pretrained_model('gpt-3.5')\n\n# 2. Prepare domain-specific data\nmedical_data = load_medical_conversations()\n\n# 3. Fine-tune on specific task\nspecialized_model = fine_tune(\n    base_model, \n    medical_data, \n    epochs=3\n)\n\n# 4. Now it's a medical AI assistant!",
+                        stepByStep: [
+                            { step: 1, text: "Start with general pre-trained model" },
+                            { step: 2, text: "Gather domain-specific data" },
+                            { step: 3, text: "Train on specialized examples" },
+                            { step: 4, text: "Evaluate on specific tasks" },
+                            { step: 5, text: "Deploy specialized model" }
+                        ],
+                        memoryTip: "Fine-tuning = General knowledge + Specialized training = Expert AI"
+                    }
+                ]
+            },
+            nlp: {
+                title: "Natural Language Processing",
+                prerequisites: ["python", "ml"],
+                cards: [
+                    {
+                        title: "💬 What is NLP?",
+                        content: "NLP teaches computers to <span class='highlight'>understand, interpret, and generate human language</span> - like building a bridge between human communication and computer processing!",
+                        analogy: "NLP is like training a computer to be a language expert who can read, understand context, detect emotions, and even write responses - basically a digital linguist!",
+                        stepByStep: [
+                            { step: 1, text: "Text Input: Receive human language" },
+                            { step: 2, text: "Processing: Break down and analyze" },
+                            { step: 3, text: "Understanding: Extract meaning and context" },
+                            { step: 4, text: "Response: Generate appropriate output" }
+                        ],
+                        quickFacts: [
+                            "Powers search engines, chatbots, translators",
+                            "Combines linguistics and computer science",
+                            "Handles ambiguity and context in language",
+                            "Used in sentiment analysis, summarization"
+                        ]
+                    },
+                    {
+                        title: "🧹 Text Preprocessing = Text Cleaning",
+                        content: "Before analyzing text, we need to <span class='highlight'>clean and prepare it</span>, like washing vegetables before cooking!",
+                        code: "import nltk\nfrom nltk.corpus import stopwords\nfrom nltk.tokenize import word_tokenize\n\ntext = \"Hello! I'm loving this AMAZING product!!!\"\n\n# Step 1: Lowercase\ntext = text.lower()\n# \"hello! i'm loving this amazing product!!!\"\n\n# Step 2: Tokenize (split into words)\ntokens = word_tokenize(text)\n# ['hello', '!', 'i', \"'m\", 'loving', 'this', 'amazing', 'product', '!', '!', '!']\n\n# Step 3: Remove stopwords\nstop_words = set(stopwords.words('english'))\nfiltered = [w for w in tokens if w not in stop_words]\n# ['hello', 'loving', 'amazing', 'product']",
+                        stepByStep: [
+                            { step: 1, text: "Lowercase: Make everything consistent" },
+                            { step: 2, text: "Tokenization: Split into individual words" },
+                            { step: 3, text: "Remove stopwords: Filter out 'the', 'and', 'is'" },
+                            { step: 4, text: "Stemming/Lemmatization: Reduce to root forms" }
+                        ],
+                        memoryTip: "LTRS: Lowercase, Tokenize, Remove stopwords, Stem"
+                    },
+                    {
+                        title: "😊 Sentiment Analysis = Emotion Detective",
+                        content: "Sentiment Analysis determines if text is <span class='highlight'>positive, negative, or neutral</span> - like having an emotion-reading superpower!",
+                        code: "from textblob import TextBlob\n\n# Analyze different sentiments\ntexts = [\n    \"I love this product! It's amazing!\",\n    \"This is terrible and disappointing.\",\n    \"The weather is okay today.\"\n]\n\nfor text in texts:\n    blob = TextBlob(text)\n    sentiment = blob.sentiment.polarity\n    \n    if sentiment > 0:\n        emotion = \"😊 Positive\"\n    elif sentiment < 0:\n        emotion = \"😞 Negative\"\n    else:\n        emotion = \"😐 Neutral\"\n    \n    print(f\"{text} → {emotion} ({sentiment:.2f})\")",
+                        visualExample: {
+                            title: "📊 Sentiment Scale",
+                            content: "😢 Very Negative (-1) ← 😐 Neutral (0) → 😄 Very Positive (+1)"
+                        },
+                        quickFacts: [
+                            "Used for social media monitoring",
+                            "Helps businesses understand customer feelings",
+                            "Can analyze reviews, tweets, feedback",
+                            "Polarity: -1 (negative) to +1 (positive)"
+                        ]
+                    },
+                    {
+                        title: "🏷️ Named Entity Recognition = Smart Highlighter",
+                        content: "NER automatically <span class='highlight'>identifies and categorizes important entities</span> in text - like a smart highlighter that knows what's important!",
+                        code: "import spacy\n\n# Load English language model\nnlp = spacy.load('en_core_web_sm')\n\ntext = \"Apple Inc. was founded by Steve Jobs in Cupertino, California in 1976.\"\n\n# Process the text\ndoc = nlp(text)\n\n# Extract entities\nfor ent in doc.ents:\n    print(f\"{ent.text} → {ent.label_}\")\n    \n# Output:\n# Apple Inc. → ORG (Organization)\n# Steve Jobs → PERSON\n# Cupertino → GPE (Geopolitical Entity)\n# California → GPE\n# 1976 → DATE",
+                        comparison: [
+                            { 
+                                type: "Manual Extraction", 
+                                example: "Read and highlight by hand", 
+                                description: "Slow and error-prone" 
+                            },
+                            { 
+                                type: "NER", 
+                                example: "Automatic identification", 
+                                description: "Fast and consistent" 
+                            }
+                        ],
+                        stepByStep: [
+                            { step: 1, text: "Process text with NLP model" },
+                            { step: 2, text: "Identify entity boundaries" },
+                            { step: 3, text: "Classify entity types" },
+                            { step: 4, text: "Extract structured information" }
+                        ]
+                    },
+                    {
+                        title: "📝 Text Summarization = Smart Notes",
+                        content: "Text summarization creates <span class='highlight'>concise summaries of long documents</span>, like having a smart assistant take perfect notes!",
+                        analogy: "Like having a brilliant student who can read a 50-page report and give you the key points in 5 sentences, capturing all the important information!",
+                        comparison: [
+                            { 
+                                type: "Extractive", 
+                                example: "Pick important sentences", 
+                                description: "Like highlighting key sentences" 
+                            },
+                            { 
+                                type: "Abstractive", 
+                                example: "Rewrite in new words", 
+                                description: "Like writing your own summary" 
+                            }
+                        ],
+                        quickFacts: [
+                            "Saves time reading long documents",
+                            "Used in news aggregation, research",
+                            "Can summarize articles, reports, papers",
+                            "Modern models use transformer architecture"
+                        ]
+                    },
+                    {
+                        title: "🌍 Machine Translation = Universal Translator",
+                        content: "Machine Translation <span class='highlight'>automatically converts text between languages</span>, like having a universal translator in your pocket!",
+                        code: "# Modern neural machine translation\nfrom transformers import pipeline\n\n# Create translator\ntranslator = pipeline('translation_en_to_fr')\n\n# Translate English to French\ntext = \"Hello, how are you today?\"\nresult = translator(text)\nprint(result[0]['translation_text'])\n# Output: \"Bonjour, comment allez-vous aujourd'hui?\"\n\n# The model considers:\n# - Grammar rules of both languages\n# - Context and meaning\n# - Cultural nuances\n# - Idiomatic expressions",
+                        stepByStep: [
+                            { step: 1, text: "Encode source language understanding" },
+                            { step: 2, text: "Transfer meaning across languages" },
+                            { step: 3, text: "Generate fluent target language" },
+                            { step: 4, text: "Ensure contextual accuracy" }
+                        ],
+                        memoryTip: "Translation = Understanding + Transfer + Generation"
+                    }
+                ]
+            }
+        };
+
+        // Prerequisites mapping
+        const prerequisites = {
+            python: { name: "Python Basics", topics: [] },
+            datascience: { name: "Data Science", topics: ["Python Basics"] },
+            ml: { name: "Machine Learning", topics: ["Python Basics", "Data Science Fundamentals"] },
+            ai: { name: "Artificial Intelligence", topics: ["Python Basics", "Machine Learning"] },
+            genai: { name: "Generative AI", topics: ["Python Basics", "Machine Learning", "AI Fundamentals"] },
+            nlp: { name: "NLP", topics: ["Python Basics", "Machine Learning"] }
+        };
+
+        let currentTopic = null;
+        let currentCardIndex = 0;
+        let totalCards = 0;
+        let isSwipeInProgress = false;
+
+        // Topic card click handlers
+        document.querySelectorAll('.topic-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const topic = this.dataset.topic;
+                currentTopic = topic;
+                checkPrerequisites(topic);
+            });
+        });
+
+        function checkPrerequisites(topic) {
+            const prereqs = prerequisites[topic].topics;
+            
+            if (prereqs.length === 0) {
+                // No prerequisites, start learning directly
+                initializeLearning(topic);
+                return;
+            }
+
+            // Show prerequisites modal
+            const modal = document.getElementById('prerequisitesModal');
+            const list = document.getElementById('prerequisitesList');
+            
+            list.innerHTML = prereqs.map(prereq => `
+                <li>
+                    <input type="checkbox" id="prereq-${prereq.replace(/\s+/g, '-')}" />
+                    <label for="prereq-${prereq.replace(/\s+/g, '-')}">${prereq}</label>
+                </li>
+            `).join('');
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('prerequisitesModal').style.display = 'none';
+        }
+
+        function startLearning() {
+            const checkboxes = document.querySelectorAll('#prerequisitesList input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            if (!allChecked) {
+                alert('Please confirm you have knowledge of all prerequisites before starting.');
+                return;
+            }
+            
+            closeModal();
+            initializeLearning(currentTopic);
+        }
+
+        function initializeLearning(topic) {
+            const content = learningContent[topic];
+            if (!content) return;
+
+            currentCardIndex = 0;
+            totalCards = content.cards.length;
+            
+            // Show learning interface
+            document.getElementById('learningContainer').style.display = 'block';
+            document.getElementById('topicTitle').textContent = content.title;
+            document.body.style.overflow = 'hidden';
+            
+            // Load cards
+            loadCards(content.cards);
+            updateProgress();
+        }
+
+        function loadCards(cards) {
+            const cardStack = document.getElementById('cardStack');
+            cardStack.innerHTML = '';
+            
+            // Load next 3 cards for smooth experience
+            for (let i = 0; i < Math.min(3, cards.length - currentCardIndex); i++) {
+                const cardData = cards[currentCardIndex + i];
+                const cardElement = createCard(cardData, i);
+                cardStack.appendChild(cardElement);
+            }
+        }
+
+        function createCard(cardData, stackIndex) {
+            const card = document.createElement('div');
+            card.className = 'learning-card';
+            card.style.zIndex = 10 - stackIndex;
+            card.style.transform = `scale(${1 - stackIndex * 0.05}) translateY(${stackIndex * 10}px)`;
+            
+            let cardContent = `
+                <div class="card-content">
+                    <h2>${cardData.title}</h2>
+                    <p>${cardData.content}</p>
+            `;
+            
+            if (cardData.code) {
+                cardContent += `<div class="code-block">${cardData.code}</div>`;
+            }
+            
+            cardContent += '</div>';
+            card.innerHTML = cardContent;
+            
+            // Add swipe functionality
+            addSwipeHandlers(card);
+            
+            return card;
+        }
+
+        function addSwipeHandlers(card) {
+            let startX = 0;
+            let currentX = 0;
+            let isDragging = false;
+
+            card.addEventListener('mousedown', startDrag);
+            card.addEventListener('touchstart', startDrag);
+
+            function startDrag(e) {
+                if (isSwipeInProgress) return;
+                
+                isDragging = true;
+                startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+                card.style.transition = 'none';
+            }
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag);
+
+            function drag(e) {
+                if (!isDragging) return;
+                
+                e.preventDefault();
+                currentX = (e.type === 'mousemove' ? e.clientX : e.touches[0].clientX) - startX;
+                
+                const rotation = currentX * 0.1;
+                card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+                
+                // Visual feedback
+                const opacity = Math.abs(currentX) / 100;
+                if (currentX > 50) {
+                    card.style.boxShadow = `0 0 20px rgba(76, 175, 80, ${opacity})`;
+                } else if (currentX < -50) {
+                    card.style.boxShadow = `0 0 20px rgba(255, 107, 107, ${opacity})`;
+                } else {
+                    card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+                }
+            }
+
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+
+            function endDrag() {
+                if (!isDragging) return;
+                
+                isDragging = false;
+                card.style.transition = 'transform 0.3s ease';
+                
+                if (Math.abs(currentX) > 100) {
+                    // Swipe threshold reached
+                    if (currentX > 0) {
+                        swipeRight();
+                    } else {
+                        swipeLeft();
+                    }
+                } else {
+                    // Snap back
+                    card.style.transform = '';
+                    card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+                }
+                
+                currentX = 0;
+            }
+        }
+
+        function swipeRight() {
+            if (isSwipeInProgress) return;
+            isSwipeInProgress = true;
+            
+            const topCard = document.querySelector('.learning-card');
+            if (topCard) {
+                topCard.classList.add('swiped-right');
+                setTimeout(() => {
+                    nextCard();
+                }, 300);
+            }
+        }
+
+        function swipeLeft() {
+            if (isSwipeInProgress) return;
+            isSwipeInProgress = true;
+            
+            const topCard = document.querySelector('.learning-card');
+            if (topCard) {
+                topCard.classList.add('swiped-left');
+                setTimeout(() => {
+                    nextCard();
+                }, 300);
+            }
+        }
+
+        function nextCard() {
+            const cardStack = document.getElementById('cardStack');
+            const topCard = cardStack.firstElementChild;
+            
+            if (topCard) {
+                cardStack.removeChild(topCard);
+            }
+            
+            currentCardIndex++;
+            isSwipeInProgress = false;
+            
+            if (currentCardIndex >= totalCards) {
+                // Learning complete
+                showCompletion();
+                return;
+            }
+            
+            // Load next card if needed
+            const content = learningContent[currentTopic];
+            if (currentCardIndex + 2 < totalCards) {
+                const newCardData = content.cards[currentCardIndex + 2];
+                const newCard = createCard(newCardData, 2);
+                cardStack.appendChild(newCard);
+            }
+            
+            // Update existing cards position
+            const remainingCards = cardStack.children;
+            for (let i = 0; i < remainingCards.length; i++) {
+                remainingCards[i].style.zIndex = 10 - i;
+                remainingCards[i].style.transform = `scale(${1 - i * 0.05}) translateY(${i * 10}px)`;
+            }
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (currentCardIndex / totalCards) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `Card ${currentCardIndex + 1} of ${totalCards}`;
+        }
+
+        function closeLearning() {
+            document.getElementById('learningContainer').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentCardIndex = 0;
+        }
+
+        function showCompletion() {
+            document.getElementById('completionModal').style.display = 'block';
+        }
+
+        function closeCompletion() {
+            document.getElementById('completionModal').style.display = 'none';
+            closeLearning();
+        }
+
+        function reviewCards() {
+            document.getElementById('completionModal').style.display = 'none';
+            // Reset to beginning
+            currentCardIndex = 0;
+            const content = learningContent[currentTopic];
+            loadCards(content.cards);
+            updateProgress();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('learningContainer').style.display === 'block') {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    swipeRight();
+                } else if (e.key === 'ArrowLeft') {
+                    swipeLeft();
+                } else if (e.key === 'Escape') {
+                    closeLearning();
+                }
+            }
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Add fade-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
