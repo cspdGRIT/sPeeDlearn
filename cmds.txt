@@ -1,0 +1,14 @@
+## 📁 Project Structure
+
+```
+quicklearn/
+├── index.html              # Main HTML structure
+├── css/
+│   └── styles.css          # All styling and animations
+├── js/
+│   ├── app.js              # Main application logic
+│   └── content.js          # Learning content database
+├── assets/
+│   └── images/             # Static assets (if needed)
+└── README.md               # This file
+```
